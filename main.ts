@@ -1,33 +1,15 @@
 info.onLifeZero(function () {
-    game.over(false)
+    game.over(false, effects.melt)
+    music.wawawawaa.play()
     game.reset()
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     info.changeLifeBy(1)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    info.changeScoreBy(-1)
-    pause(1000)
+    info.changeLifeBy(-1)
+    pause(500)
 })
-tiles.setTilemap(tiles.createTilemap(hex`1000100001010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101`, img`
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    . . . . . . . . . . . . . . . . 
-    `, [myTiles.transparency16,sprites.vehicle.roadHorizontal], TileScale.Sixteen))
-info.setLife(3)
 let Skateboard = sprites.create(img`
     .............5555555.........
     .............5555555.........
@@ -72,8 +54,104 @@ let Skateboard = sprites.create(img`
     `, SpriteKind.Player)
 Skateboard.setPosition(16, 60)
 controller.moveSprite(Skateboard, 0, 100)
+tiles.setTilemap(tiles.createTilemap(hex`1000100001010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101`, img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, [myTiles.transparency16,sprites.vehicle.roadHorizontal], TileScale.Sixteen))
+info.setLife(3)
 info.setScore(0)
 Skateboard.setFlag(SpriteFlag.StayInScreen, true)
+let Car1 = sprites.create(img`
+    . . . . . . . 2 2 2 2 2 2 2 2 2 . . . . . 
+    . . . . . . 2 9 9 9 9 2 9 9 9 9 2 . . . . 
+    . . . . . 2 9 9 9 9 9 2 9 9 9 9 9 2 . . . 
+    . . . . 2 9 9 9 9 9 9 2 9 9 9 9 9 9 2 . . 
+    . . . . 2 9 9 9 9 9 9 2 9 9 9 9 9 9 2 . . 
+    . . . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 
+    . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . 
+    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+    5 2 2 f f f 2 2 2 2 2 2 2 2 2 f f f 2 2 5 
+    e e e f e f e e e e e e e e e f e f e e e 
+    . . . f f f . . . . . . . . . f f f . . . 
+    `, SpriteKind.Enemy)
+let Car2 = sprites.create(img`
+    . . . . . . . 8 8 8 8 8 8 8 8 8 . . . . . 
+    . . . . . . 8 9 9 9 9 8 9 9 9 9 8 . . . . 
+    . . . . . 8 9 9 9 9 9 8 9 9 9 9 9 8 . . . 
+    . . . . 8 9 9 9 9 9 9 8 9 9 9 9 9 9 8 . . 
+    . . . . 8 9 9 9 9 9 9 8 9 9 9 9 9 9 8 . . 
+    . . . . 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 . . 
+    . 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 . 
+    8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 8 
+    5 8 8 f f f 8 8 8 8 8 8 8 8 8 f f f 8 8 5 
+    e e e f e f e e e e e e e e e f e f e e e 
+    . . . f f f . . . . . . . . . f f f . . . 
+    `, SpriteKind.Enemy)
+let Car3 = sprites.create(img`
+    . . . . . . . a a a a a a a a a . . . . . 
+    . . . . . . a 9 9 9 9 a 9 9 9 9 a . . . . 
+    . . . . . a 9 9 9 9 9 a 9 9 9 9 9 a . . . 
+    . . . . a 9 9 9 9 9 9 a 9 9 9 9 9 9 a . . 
+    . . . . a 9 9 9 9 9 9 a 9 9 9 9 9 9 a . . 
+    . . . . a a a a a a a a a a a a a a a . . 
+    . a a a a a a a a a a a a a a a a a a a . 
+    a a a a a a a a a a a a a a a a a a a a a 
+    5 a a f f f a a a a a a a a a f f f a a 5 
+    e e e f e f e e e e e e e e e f e f e e e 
+    . . . f f f . . . . . . . . . f f f . . . 
+    `, SpriteKind.Enemy)
+let Cherry = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . 7 7 7 7 . . . . . . . . . . . 
+    . 7 7 7 7 . . . . . . . . . . . 
+    . . . . 7 . . . . . . . . . . . 
+    . . . . 7 7 . . . . . . . . . . 
+    . . . . 7 7 . . . . . . . . . . 
+    . . . . 7 7 . . . . . . . . . . 
+    . . . . 7 7 . . . . . . . . . . 
+    . . . . f f . . . . . . . . . . 
+    . . . . f f . . . . . . . . . . 
+    2 2 2 2 2 . 2 2 2 2 2 . . . . . 
+    2 1 2 2 2 . 2 1 2 2 2 . . . . . 
+    2 2 1 2 2 . 2 2 1 2 2 . . . . . 
+    2 2 2 2 2 . 2 2 2 2 2 . . . . . 
+    2 2 2 2 2 . 2 2 2 2 2 . . . . . 
+    2 2 2 2 2 . 2 2 2 2 2 . . . . . 
+    `, SpriteKind.Food)
 game.onUpdateInterval(1000, function () {
-    info.changeScoreBy(100)
+    info.changeScoreBy(10)
+})
+forever(function () {
+    Car1.setPosition(160, randint(0, 120))
+    Car1.setVelocity(-75, 0)
+    pause(2000)
+})
+forever(function () {
+    Car2.setPosition(160, randint(0, 120))
+    Car2.setVelocity(-75, 0)
+    pause(2000)
+})
+forever(function () {
+    Cherry.setPosition(160, randint(0, 120))
+    Cherry.setVelocity(-100, 0)
+    pause(2000)
+})
+forever(function () {
+    Car3.setPosition(160, randint(0, 120))
+    Car3.setVelocity(-75, 0)
+    pause(2000)
 })
