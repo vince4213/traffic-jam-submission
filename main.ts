@@ -5,9 +5,10 @@ info.onLifeZero(function () {
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     info.changeLifeBy(1)
+    pause(500)
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
-    info.changeLifeBy(-1)
+    info.changeLifeBy(-2)
     pause(500)
 })
 let Skateboard = sprites.create(img`
